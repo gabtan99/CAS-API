@@ -66,7 +66,4 @@ typings/
 # sqlite database
 db/database.sqlite
 
-# documentation
-api/
-
 .vscode
