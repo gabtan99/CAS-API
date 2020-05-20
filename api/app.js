@@ -1,7 +1,8 @@
-const express = require("express");
-const { ApolloServer, gql } = require("apollo-server-express");
+const express = require('express');
+const { ApolloServer, gql } = require('apollo-server-express');
 
 const app = express();
+const PORT = process.env.PORT || 4000;
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
@@ -13,7 +14,7 @@ const typeDefs = gql`
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => "Hello world!",
+    hello: () => 'Hello world!',
   },
 };
 
@@ -24,6 +25,6 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 
-app.listen({ port: 4000 }, () =>
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+app.listen({ port: PORT }, () =>
+  console.log(`🚀 Server ready at https://localhost:${PORT}${server.graphqlPath}`),
 );
