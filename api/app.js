@@ -1,11 +1,8 @@
 const express = require('express');
 const { ApolloServer, gql } = require('apollo-server-express');
-const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT ? process.env.PORT : 4000;
-
-app.use(cors());
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
