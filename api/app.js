@@ -21,9 +21,9 @@ const resolvers = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  tracing: true,
-  cacheControl: true,
-  engine: true,
+  engine: {
+    apiKey: 'service:cas-api:18v2wBQsRvAKpqxWmGsXmQ',
+  },
 });
 
 server.applyMiddleware({ app });
