@@ -1,0 +1,51 @@
+type Query {
+  users: [User]
+  user(id: ID!): User
+  quizzes: [Quiz]
+  quiz(id: ID!): Quiz
+}
+
+type User {
+  id: ID!
+  full_name: String!
+  username: String!
+  email_address: String!
+  password: String!
+  date_created: String!
+  quizzes: [Quiz]
+}
+
+type Quiz {
+  id: ID!
+  user: User
+  title: String!
+  description: String
+  type: QuizType
+  is_public: Boolean!
+  is_active: Boolean!
+  date_created: String!
+  sets: [Set]
+}
+
+type Set {
+  id: ID!
+  quiz: Quiz!
+  question: String
+  correct_answer: String
+  wrong_answer_a: String
+  wrong_answer_b: String
+}
+
+type Attempt {
+  id: ID!
+  quiz: Quiz!
+  user: User!
+  user_score: Int!
+  max_score: Int!
+  date_created: String!
+}
+
+type QuizType {
+  id: ID!
+  title: String!
+}

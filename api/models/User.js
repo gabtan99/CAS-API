@@ -1,10 +1,10 @@
 const Sequelize = require('sequelize');
-const bcryptService = require('../services/bcrypt.service');
-const Database = require('../../config/database');
+const encryptService = require('../services/encrypt.service');
+const Database = require('../../config/Database');
 
 const hooks = {
   beforeCreate(user) {
-    user.password = bcryptService().password(user); // eslint-disable-line no-param-reassign
+    user.password = encryptService().password(user); // eslint-disable-line no-param-reassign
   },
 };
 
@@ -13,13 +13,13 @@ const tableName = 'Users';
 const User = Database.define(
   tableName,
   {
-    id_number: {
+    user_id: {
       type: Sequelize.BIGINT,
       primaryKey: true,
       unique: true,
       allowNull: false,
       required: true,
-      field: 'id_number',
+      field: 'user_id',
     },
     name: {
       type: Sequelize.STRING,
@@ -53,14 +53,12 @@ const User = Database.define(
     hooks,
     tableName,
     timestamps: true,
-    createdAt: 'created_at',
-    updatedAt: 'updated_at',
+    createdAt: 'date_created',
   },
 );
 
 User.prototype.toJSON = function () {
   const values = { ...this.get() };
-
   delete values.password;
 
   return values;

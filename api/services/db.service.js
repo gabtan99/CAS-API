@@ -1,9 +1,9 @@
-const connection = require('../../config/connection');
+const Database = require('../../config/Database');
 
 const dbService = () => {
   const authenticateDB = () => {
     console.log('Attempting to connect...');
-    return connection.authenticate();
+    return Database.authenticate();
   };
 
   const start = async () => {
