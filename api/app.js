@@ -6,17 +6,18 @@ const jwt = require('jsonwebtoken');
 const resolvers = require('./resolvers');
 const dbService = require('./services/db.service');
 
-const DB = dbService().start();
-const app = express();
-
 const JWT_SECRET = process.env.JWT_SECRET;
 const PORT = process.env.PORT || 4000;
+const APOLLO_ENGINE_KEY = process.env.APOLLO_ENGINE_KEY;
+
+const DB = dbService().start();
+const app = express();
 
 const server = new ApolloServer({
   typeDefs: gql(fs.readFileSync(__dirname.concat('/schema.graphql'), 'utf8')),
   resolvers,
   engine: {
-    apiKey: process.env.APOLLO_ENGINE_KEY,
+    apiKey: APOLLO_ENGINE_KEY,
   },
   context: ({ req }) => {
     let user = null;
@@ -29,6 +30,10 @@ const server = new ApolloServer({
 });
 
 server.applyMiddleware({ app, path: '/api' });
+
+app.get('/ping', (req, res) => {
+  res.status(200).json({ msg: 'Success' });
+});
 
 app.listen({ port: PORT }, () => {
   console.log(`🚀 Server ready at PORT ${PORT}`);
