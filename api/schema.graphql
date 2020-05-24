@@ -25,11 +25,11 @@ type Quiz {
   is_active: Boolean!
   date_created: String!
   sets: [Set]
+  attempts: [Attempt]
 }
 
 type Set {
   id: ID!
-  quiz: Quiz!
   question: String
   correct_answer: String
   wrong_answer_a: String

@@ -1,17 +1,17 @@
 const { Query } = require('./Query');
 // const { auth } = require('./Mutation/auth');
 // const { post } = require('./Mutation/post');
-// const { Subscription } = require('./Subscription');
-// const { User } = require('./User');
-// const { Post } = require('./Post');
+const { User } = require('./User');
+const { Quiz } = require('./Quiz');
+const { Attempt } = require('./Attempt');
 
 module.exports = {
   Query,
   //   Mutation: {
   //     ...auth,
-  //     ...post,
+  //     ...Quiz,
   //   },
-  //   Subscription,
-  //   User,
-  //   Post,
+  User,
+  Quiz,
+  Attempt,
 };

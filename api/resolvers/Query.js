@@ -1,9 +1,9 @@
-const { users } = require('./sample');
+const { users, quizzes } = require('./sample');
 
 const Query = {
   user: (_, { id }) => users.find((user) => user.id == id),
   users: () => users,
-  quiz: () => {},
+  quiz: (_, { id }) => quizzes.find((quiz) => quiz.id == id),
   quizzes: () => quizzes,
 };
 
