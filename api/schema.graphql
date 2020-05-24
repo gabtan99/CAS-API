@@ -3,6 +3,7 @@ type Query {
   user(id: ID!): User
   quizzes: [Quiz]
   quiz(id: ID!): Quiz
+  quiz_types: [QuizType]
 }
 
 type User {
