@@ -13,18 +13,17 @@ const tableName = 'Users';
 const User = Database.define(
   tableName,
   {
-    user_id: {
+    id: {
       type: Sequelize.BIGINT,
       primaryKey: true,
       unique: true,
       allowNull: false,
-      required: true,
-      field: 'user_id',
+      field: 'id',
     },
-    name: {
+    full_name: {
       type: Sequelize.STRING,
       allowNull: false,
-      field: 'name',
+      field: 'full_name',
     },
     username: {
       type: Sequelize.STRING,
@@ -43,16 +42,11 @@ const User = Database.define(
       allowNull: false,
       field: 'email_address',
     },
-    access: {
-      type: Sequelize.STRING,
-      allowNull: false,
-      field: 'access',
-    },
   },
   {
     hooks,
     tableName,
-    timestamps: true,
+    timestamps: false,
     createdAt: 'date_created',
   },
 );
