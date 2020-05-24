@@ -1,7 +1,7 @@
-const { quizzes } = require('./sample');
+const Quiz = require('../models/Quiz');
 
 const User = {
-  quizzes: (parent) => quizzes.filter(({ user_id }) => parent.id == user_id),
+  quizzes: (parent) => Quiz.findAll({ where: { user_id: parent.id } }, { raw: true }),
 };
 
 module.exports = {

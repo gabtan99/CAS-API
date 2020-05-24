@@ -3,7 +3,10 @@ type Query {
   user(id: ID!): User
   quizzes: [Quiz]
   quiz(id: ID!): Quiz
+  quiz_type(id: ID!): QuizType
   quiz_types: [QuizType]
+  attempt(id: ID!): Attempt
+  attempts: [Attempt]
 }
 
 type User {
@@ -21,7 +24,7 @@ type Quiz {
   user: User
   title: String!
   description: String
-  type: QuizType
+  quiz_type: QuizType
   is_public: Boolean!
   is_active: Boolean!
   date_created: String!
