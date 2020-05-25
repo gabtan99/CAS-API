@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt-nodejs');
 
 const encryptService = () => {
-  const password = (user) => {
+  const generatePassword = (user) => {
     const salt = bcrypt.genSaltSync();
     const hash = bcrypt.hashSync(user.password, salt);
 
@@ -11,7 +11,7 @@ const encryptService = () => {
   const comparePassword = (pw, hash) => bcrypt.compareSync(pw, hash);
 
   return {
-    password,
+    generatePassword,
     comparePassword,
   };
 };

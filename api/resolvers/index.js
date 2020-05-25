@@ -1,5 +1,5 @@
 const { Query } = require('./Query');
-// const { auth } = require('./Mutation/auth');
+const { Users } = require('./Mutations/Users');
 // const { post } = require('./Mutation/post');
 const { User } = require('./User');
 const { Quiz } = require('./Quiz');
@@ -7,10 +7,10 @@ const { Attempt } = require('./Attempt');
 
 module.exports = {
   Query,
-  //   Mutation: {
-  //     ...auth,
-  //     ...Quiz,
-  //   },
+  Mutation: {
+    ...Users,
+    // ...Quiz,
+  },
   User,
   Quiz,
   Attempt,

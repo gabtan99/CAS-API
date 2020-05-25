@@ -9,6 +9,21 @@ type Query {
   attempts: [Attempt]
 }
 
+type Mutation {
+  register(
+    full_name: String!
+    username: String!
+    email_address: String!
+    password: String!
+  ): AuthPayload!
+  login(username: String!, password: String!): AuthPayload!
+}
+
+type AuthPayload {
+  user: User!
+  token: String!
+}
+
 type User {
   id: ID!
   full_name: String!
