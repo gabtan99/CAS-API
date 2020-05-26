@@ -6,13 +6,6 @@ const tableName = 'Quizzes';
 const Quiz = Database.define(
   tableName,
   {
-    id: {
-      type: Sequelize.BIGINT,
-      primaryKey: true,
-      unique: true,
-      allowNull: false,
-      field: 'id',
-    },
     user_id: {
       type: Sequelize.BIGINT,
       allowNull: true,

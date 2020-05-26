@@ -13,13 +13,6 @@ const tableName = 'Users';
 const User = Database.define(
   tableName,
   {
-    id: {
-      type: Sequelize.BIGINT,
-      primaryKey: true,
-      unique: true,
-      allowNull: false,
-      field: 'id',
-    },
     full_name: {
       type: Sequelize.STRING,
       allowNull: false,

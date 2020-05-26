@@ -6,13 +6,6 @@ const tableName = 'Sets';
 const Set = Database.define(
   tableName,
   {
-    id: {
-      type: Sequelize.BIGINT,
-      primaryKey: true,
-      unique: true,
-      allowNull: false,
-      field: 'id',
-    },
     quiz_id: {
       type: Sequelize.BIGINT,
       allowNull: false,

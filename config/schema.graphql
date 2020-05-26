@@ -10,7 +10,7 @@ type Query {
 }
 
 type Mutation {
-  register(
+  createUser(
     full_name: String!
     username: String!
     email_address: String!

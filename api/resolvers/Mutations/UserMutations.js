@@ -1,13 +1,12 @@
 const authService = require('../../services/auth.service');
 const User = require('../../models/User');
 
-const users = {
-  async register(parent, args, context) {
-    let user, token;
-    const { full_name, username, email_address, password } = args;
+const UserMutations = {
+  async createUser(_, { full_name, username, email_address, password }) {
+    let account, token;
 
     try {
-      user = await User.create({
+      account = await User.create({
         full_name,
         username: username.toLowerCase(),
         password,
@@ -15,15 +14,17 @@ const users = {
       });
 
       token = authService().issue({
-        user,
+        account,
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
 
     return {
       token,
-      user,
+      user: account,
     };
   },
 };
 
-module.exports = { users };
+module.exports = { UserMutations };
