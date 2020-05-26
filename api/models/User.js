@@ -35,6 +35,11 @@ const User = Database.define(
       allowNull: false,
       field: 'email_address',
     },
+    date_created: {
+      type: Sequelize.DATE,
+      allowNull: true,
+      field: 'date_created',
+    },
   },
   {
     hooks,

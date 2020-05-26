@@ -36,6 +36,11 @@ const Quiz = Database.define(
       allowNull: false,
       field: 'is_active',
     },
+    date_created: {
+      type: Sequelize.DATE,
+      allowNull: true,
+      field: 'date_created',
+    },
   },
   {
     tableName,

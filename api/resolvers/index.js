@@ -1,5 +1,5 @@
 const { Query } = require('./Query');
-const { UserMutations } = require('./Mutations/UserMutations');
+const { UserMutations } = require('./Mutations/User.mutation');
 // const { post } = require('./Mutation/post');
 const { User } = require('./User');
 const { Quiz } = require('./Quiz');
