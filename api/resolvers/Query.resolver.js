@@ -14,8 +14,7 @@ const Query = {
   quiz_types: () => QuizType.findAll(),
   attempt: (_, { id }) => Attempt.findByPk(id, { raw: true }),
   attempts: () => Attempt.findAll(),
-  bookmarks: (_, { id }, { user }) =>
-    Bookmark.findAll({ where: { user_id: id || user ? user.account.id : null } }, { raw: true }),
+  bookmarks: (_, { id }) => Bookmark.findAll({ where: { user_id: id } }, { raw: true }),
 };
 
 module.exports = { Query };

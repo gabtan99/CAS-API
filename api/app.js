@@ -9,7 +9,7 @@ const DB = dbService().start();
 
 server.applyMiddleware({ app, path: '/api' });
 
-app.get('/ping', (req, res) => {
+app.get('/ping', (_, res) => {
   res.status(200).json({ msg: 'Success' });
 });
 

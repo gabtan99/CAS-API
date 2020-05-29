@@ -14,11 +14,7 @@ const server = new ApolloServer({
   engine: {
     apiKey: APOLLO_ENGINE_KEY,
   },
-  context: ({ req }) => {
-    const user = authService().getUser(req.headers.authorization);
-    if (!user) throw new AuthenticationError('you must be logged in');
-    return user;
-  },
+  context: ({ req }) => authService().getUser(req.headers.authorization),
 });
 
 module.exports = server;
