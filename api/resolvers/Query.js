@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Quiz = require('../models/Quiz');
 const QuizType = require('../models/QuizType');
 const Attempt = require('../models/Attempt');
+const Bookmark = require('../models/Bookmark');
 
 const Query = {
   user: (_, { id }) => User.findByPk(id, { raw: true }),
@@ -12,6 +13,7 @@ const Query = {
   quiz_types: () => QuizType.findAll(),
   attempt: (_, { id }) => Attempt.findByPk(id, { raw: true }),
   attempts: () => Attempt.findAll(),
+  bookmarks: (_, { id }) => Bookmark.findAll({ where: { user_id: id } }, { raw: true }),
 };
 
 module.exports = { Query };
