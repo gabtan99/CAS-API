@@ -1,4 +1,5 @@
 type Query {
+  me: User
   users: [User]
   user(id: ID!): User
   quizzes: [Quiz]
@@ -7,7 +8,7 @@ type Query {
   quiz_types: [QuizType]
   attempt(id: ID!): Attempt
   attempts: [Attempt]
-  bookmarks(id: ID!): [Bookmark]
+  bookmarks(id: ID): [Bookmark]
 }
 
 type Mutation {
@@ -33,6 +34,7 @@ type User {
   password: String!
   date_created: String!
   quizzes: [Quiz]
+  bookmarks: [Quiz]
 }
 
 type Quiz {
@@ -44,11 +46,13 @@ type Quiz {
   is_public: Boolean!
   is_active: Boolean!
   date_created: String!
-  sets: [Set]
+  flashcards: [Flashcard]
+  flashcards_count: Int
   attempts: [Attempt]
+  bookmarks_count: Int
 }
 
-type Set {
+type Flashcard {
   id: ID!
   question: String
   correct_answer: String

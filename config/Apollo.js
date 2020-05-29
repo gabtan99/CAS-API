@@ -15,7 +15,7 @@ const server = new ApolloServer({
   context: ({ req }) => {
     const user = authService().getUser(req.headers.authorization);
     if (!user) throw new AuthenticationError('you must be logged in');
-    return { user };
+    return user;
   },
 });
 

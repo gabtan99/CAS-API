@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 const Database = require('../../config/Database');
 
-const tableName = 'Sets';
+const tableName = 'Flashcards';
 
-const Set = Database.define(
+const Flashcard = Database.define(
   tableName,
   {
     quiz_id: {
@@ -38,4 +38,4 @@ const Set = Database.define(
   },
 );
 
-module.exports = Set;
+module.exports = Flashcard;
