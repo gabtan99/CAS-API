@@ -1,7 +1,7 @@
-const QuizType = require('../models/QuizType');
-const Flashcard = require('../models/Flashcard');
-const Attempt = require('../models/Attempt');
-const Bookmark = require('../models/Bookmark');
+const QuizType = require('../models/QuizType.model');
+const Flashcard = require('../models/Flashcard.model');
+const Attempt = require('../models/Attempt.model');
+const Bookmark = require('../models/Bookmark.model');
 
 const Quiz = {
   quiz_type: (parent) => QuizType.findByPk(parent.type_id, { raw: true }),

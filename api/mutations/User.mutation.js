@@ -1,6 +1,6 @@
-const authService = require('../../services/auth.service');
-const encryptService = require('../../services/encrypt.service');
-const User = require('../../models/User');
+const authService = require('../services/auth.service');
+const encryptService = require('../services/encrypt.service');
+const User = require('../models/User.model');
 
 const UserMutations = {
   async createUser(_, { full_name, username, email_address, password }) {
