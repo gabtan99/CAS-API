@@ -39,6 +39,43 @@ const UserMutations = {
       user: account,
     };
   },
+
+  async updateUserDetails(_, { email_address, full_name }, { user }) {
+    if (!user) throw new AuthenticationError('You are not logged in.');
+
+    const account = await User.update(
+      { email_address, full_name },
+      { where: { id: user.account.id }, returning: true, plain: true },
+    );
+
+    const token = authService().issue({ account: account[1] });
+
+    return {
+      token,
+      user: account[1],
+    };
+  },
+
+  async updatePassword(_, { old_password, new_password }, { user }) {
+    if (!user) throw new AuthenticationError('You are not logged in.');
+
+    const account = await User.findOne({ where: { id: user.account.id } });
+    if (!account) throw new AuthenticationError('Account not found');
+
+    if (!encryptService().comparePassword(old_password, account.password))
+      throw new AuthenticationError('Invalid Password. Please try again.');
+
+    account.password = new_password;
+    const password = encryptService().generatePassword(account);
+    account.update({ password });
+
+    const token = authService().issue({ account });
+
+    return {
+      token,
+      user: account,
+    };
+  },
 };
 
 module.exports = { UserMutations };

@@ -19,6 +19,8 @@ type Mutation {
     password: String!
   ): AuthPayload!
   login(username: String!, password: String!): AuthPayload!
+  updateUserDetails(full_name: String, email_address: String): AuthPayload!
+  updatePassword(old_password: String!, new_password: String!): AuthPayload!
   createQuiz(
     title: String!
     description: String
