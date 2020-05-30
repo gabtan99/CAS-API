@@ -19,6 +19,13 @@ type Mutation {
     password: String!
   ): AuthPayload!
   login(username: String!, password: String!): AuthPayload!
+  createQuiz(
+    title: String!
+    description: String
+    quiz_type: String!
+    is_public: Boolean
+    flashcards: [FlashcardInput]
+  ): Quiz!
 }
 
 type AuthPayload {
@@ -55,6 +62,13 @@ type Quiz {
 
 type Flashcard {
   id: ID!
+  question: String
+  correct_answer: String
+  wrong_answer_a: String
+  wrong_answer_b: String
+}
+
+input FlashcardInput {
   question: String
   correct_answer: String
   wrong_answer_a: String

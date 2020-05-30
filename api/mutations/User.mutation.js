@@ -1,3 +1,4 @@
+const { AuthenticationError } = require('apollo-server-express');
 const authService = require('../services/auth.service');
 const encryptService = require('../services/encrypt.service');
 const User = require('../models/User.model');
@@ -28,9 +29,9 @@ const UserMutations = {
       },
     });
 
-    if (!account) throw Error('No Account');
+    if (!account) throw new AuthenticationError('Account not found.');
     if (!encryptService().comparePassword(password, account.password))
-      throw Error('Wrong password');
+      throw new AuthenticationError('Invalid Username / Password. Please Try Again.');
 
     const token = authService().issue({ account });
     return {
