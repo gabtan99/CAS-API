@@ -1,3 +1,4 @@
+const { AuthenticationError } = require('apollo-server-express');
 const Attempt = require('../models/Attempt.model');
 
 const AttemptMutations = {

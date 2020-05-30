@@ -29,6 +29,7 @@ type Mutation {
     flashcards: [FlashcardInput]
   ): Quiz!
   createBookmark(quiz_id: ID!): Bookmark!
+  deleteBookmark(id: ID!): Boolean!
   createAttempt(quiz_id: ID!, user_score: Int!, max_score: Int!): Attempt!
 }
 
