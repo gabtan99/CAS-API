@@ -28,6 +28,8 @@ type Mutation {
     is_public: Boolean
     flashcards: [FlashcardInput]
   ): Quiz!
+  createBookmark(quiz_id: ID!): Bookmark!
+  createAttempt(quiz_id: ID!, user_score: Int!, max_score: Int!): Attempt!
 }
 
 type AuthPayload {
