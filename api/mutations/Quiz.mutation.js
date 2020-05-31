@@ -53,13 +53,30 @@ const QuizMutations = {
       { where: { id: quiz_id, user_id: user.account.id, is_active: true } },
     );
 
-    const existing_sets = await Flashcard.findAll({ where: { quiz_id }, raw: true });
-    const updated_sets = flashcards.map((obj) => ({ ...obj, id: parseInt(obj.id) }));
+    const successful = result[0];
 
-    const actions = getUpdatedSets(existing_sets, updated_sets);
-    console.log(actions);
+    if (successful) {
+      const existing_sets = await Flashcard.findAll({ where: { quiz_id }, raw: true });
+      const updated_sets = flashcards.map((obj) => ({ ...obj, id: parseInt(obj.id), quiz_id }));
 
-    return result[0];
+      const { create: c, update: u, delete: d } = getUpdatedSets(existing_sets, updated_sets);
+
+      //  Create Cards
+      Flashcard.bulkCreate(c);
+
+      // Update Cards
+      u.forEach(({ id, question, correct_answer, wrong_answer_a, wrong_answer_b }) =>
+        Flashcard.update(
+          { question, correct_answer, wrong_answer_a, wrong_answer_b },
+          { where: { id } },
+        ),
+      );
+
+      // Delete Cards
+      d.forEach(({ id }) => Flashcard.destroy({ where: { id } }));
+    }
+
+    return successful;
   },
 };
 
