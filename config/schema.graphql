@@ -25,8 +25,17 @@ type Mutation {
     description: String
     quiz_type: String!
     is_public: Boolean
-    flashcards: [FlashcardInput]
+    flashcards: [FlashcardInput]!
   ): Quiz!
+  updateQuiz(
+    quiz_id: ID!
+    title: String!
+    description: String!
+    quiz_type: String!
+    is_public: Boolean!
+    flashcards: [FlashcardInput]!
+  ): Boolean!
+  deleteQuiz(quiz_id: ID!): Boolean!
   createBookmark(quiz_id: ID!): Bookmark!
   deleteBookmark(id: ID!): Boolean!
   createAttempt(quiz_id: ID!, user_score: Int!, max_score: Int!): Attempt!
@@ -74,6 +83,7 @@ type Flashcard {
 }
 
 input FlashcardInput {
+  id: ID
   question: String
   correct_answer: String
   wrong_answer_a: String

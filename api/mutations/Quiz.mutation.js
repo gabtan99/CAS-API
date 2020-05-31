@@ -2,6 +2,7 @@ const { AuthenticationError, UserInputError } = require('apollo-server-express')
 const Quiz = require('../models/Quiz.model');
 const Flashcard = require('../models/Flashcard.model');
 const getQuizType = require('../util/getQuizType');
+const getUpdatedSets = require('../util/getUpdatedSets');
 
 const QuizMutations = {
   async createQuiz(_, { title, description, quiz_type, is_public, flashcards }, { user }) {
@@ -26,6 +27,39 @@ const QuizMutations = {
     await Flashcard.bulkCreate(sets);
 
     return result;
+  },
+
+  async deleteQuiz(_, { quiz_id }, { user }) {
+    if (!user) throw new AuthenticationError('You must be logged in to add a quiz.');
+
+    const result = await Quiz.update(
+      { is_active: false },
+      { where: { id: quiz_id, user_id: user.account.id } },
+    );
+
+    return result[0];
+  },
+
+  async updateQuiz(_, { quiz_id, title, description, quiz_type, is_public, flashcards }, { user }) {
+    if (!user) throw new AuthenticationError('You must be logged in to update a quiz.');
+
+    const type = await getQuizType(quiz_type);
+    if (!type) throw new UserInputError('Quiz type is unknown.');
+
+    const { id: type_id } = type;
+
+    const result = await Quiz.update(
+      { title, description, type_id, is_public, type_id },
+      { where: { id: quiz_id, user_id: user.account.id, is_active: true } },
+    );
+
+    const existing_sets = await Flashcard.findAll({ where: { quiz_id }, raw: true });
+    const updated_sets = flashcards.map((obj) => ({ ...obj, id: parseInt(obj.id) }));
+
+    const actions = getUpdatedSets(existing_sets, updated_sets);
+    console.log(actions);
+
+    return result[0];
   },
 };
 
