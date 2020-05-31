@@ -6,9 +6,8 @@ type Query {
   quiz(id: ID!): Quiz
   quiz_type(id: ID!): QuizType
   quiz_types: [QuizType]
-  attempt(id: ID!): Attempt
-  attempts: [Attempt]
-  bookmarks(id: ID!): [Bookmark]
+  attempts(quiz_id: ID!): [Attempt]
+  bookmarks: [Bookmark]
 }
 
 type Mutation {
@@ -63,6 +62,7 @@ type Quiz {
   attempts: [Attempt]
   attempts_count: Int
   bookmarks_count: Int
+  leaderboard(limit: Int): [Attempt]
 }
 
 type Flashcard {

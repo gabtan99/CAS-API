@@ -10,6 +10,11 @@ const Quiz = {
   attempts: (parent) => Attempt.findAll({ where: { quiz_id: parent.id } }, { raw: true }),
   attempts_count: (parent) => Attempt.count({ where: { quiz_id: parent.id } }, { raw: true }),
   bookmarks_count: (parent) => Bookmark.count({ where: { quiz_id: parent.id } }, { raw: true }),
+  leaderboard: (parent, { limit = 10 }) =>
+    Attempt.findAll(
+      { where: { quiz_id: parent.id }, limit, order: [['user_score', 'DESC']] },
+      { raw: true },
+    ),
 };
 
 module.exports = {

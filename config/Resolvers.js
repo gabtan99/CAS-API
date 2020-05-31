@@ -1,4 +1,5 @@
-const { Query } = require('../api/resolvers/Query.resolver');
+const { PublicQuery } = require('../api/resolvers/PublicQuery.resolver');
+const { PrivateQuery } = require('../api/resolvers/PrivateQuery.resolver');
 const { User } = require('../api/resolvers/User.resolver');
 const { Quiz } = require('../api/resolvers/Quiz.resolver');
 const { Attempt } = require('../api/resolvers/Attempt.resolver');
@@ -9,7 +10,10 @@ const { BookmarkMutations } = require('../api/mutations/Bookmark.mutation');
 const { AttemptMutations } = require('../api/mutations/Attempt.mutation');
 
 module.exports = {
-  Query,
+  Query: {
+    ...PublicQuery,
+    ...PrivateQuery,
+  },
   Mutation: {
     ...UserMutations,
     ...QuizMutations,
