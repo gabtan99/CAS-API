@@ -5,15 +5,15 @@ type Query {
   quiz(id: ID!): Quiz
   quiz_type(id: ID!): QuizType
   quiz_types: [QuizType]
-  quizzes(conditions: ConditionsInput): [Quiz]
+  quizzes(conditions: ConditionsInput): QuizzesPayload
 
   # Private (Checks User Access)
   me: User
   attempts(quiz_id: ID!): [Attempt]
   bookmarks: [Bookmark]
-  bookmarked_quizzes(conditions: ConditionsInput): [Quiz]
-  recent_quizzes(conditions: ConditionsInput): [Quiz]
-  my_quizzes(conditions: ConditionsInput): [Quiz]
+  bookmarked_quizzes(conditions: ConditionsInput): QuizzesPayload
+  recent_quizzes(conditions: ConditionsInput): QuizzesPayload
+  my_quizzes(conditions: ConditionsInput): QuizzesPayload
 }
 
 type Mutation {
@@ -57,6 +57,11 @@ type Mutation {
 type AuthPayload {
   user: User!
   token: String!
+}
+
+type QuizzesPayload {
+  quizzes: [Quiz]
+  cursor: Int
 }
 
 type User {
