@@ -1,4 +1,4 @@
-const getUpdatedSets = (existing, updated) => {
+const getFlashcardActions = (existing, updated) => {
   const actions = {
     create: [],
     update: [],
@@ -9,6 +9,7 @@ const getUpdatedSets = (existing, updated) => {
     if (existing.some((e) => e.id === obj.id)) {
       actions.update.push(obj);
     } else {
+      delete obj.id;
       actions.create.push(obj);
     }
   });
@@ -20,4 +21,4 @@ const getUpdatedSets = (existing, updated) => {
   return actions;
 };
 
-module.exports = getUpdatedSets;
+module.exports = getFlashcardActions;

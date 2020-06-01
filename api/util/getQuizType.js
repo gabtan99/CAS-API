@@ -1,13 +1,9 @@
 const QuizType = require('../models/QuizType.model');
+const toTitleCase = require('./toTitleCase');
 
 const getQuizType = async (str) => {
-  const title = capitalize(str.toLowerCase());
+  const title = toTitleCase(str);
   return await QuizType.findOne({ where: { title } }, { raw: true });
-};
-
-const capitalize = (s) => {
-  if (typeof s !== 'string') return '';
-  return s.charAt(0).toUpperCase() + s.slice(1);
 };
 
 module.exports = getQuizType;

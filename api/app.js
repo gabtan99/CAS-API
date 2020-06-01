@@ -10,10 +10,10 @@ const DB = dbService().start();
 server.applyMiddleware({ app, path: '/api' });
 
 app.get('/ping', (_, res) => {
-  res.status(200).json({ msg: 'Success' });
+  res.status(200).json({ awake: true });
 });
 
 app.listen({ port: PORT }, () => {
-  console.log(`🚀 Server ready at PORT ${PORT}`);
+  console.log('✅ SERVER: Ready at PORT', PORT);
   return DB;
 });

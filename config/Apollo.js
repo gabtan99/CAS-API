@@ -1,6 +1,5 @@
 const { ApolloServer, gql } = require('apollo-server-express');
 const fs = require('fs');
-
 const authService = require('../api/services/auth.service');
 const resolvers = require('./Resolvers');
 

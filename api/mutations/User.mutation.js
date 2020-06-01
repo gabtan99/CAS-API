@@ -2,19 +2,18 @@ const { AuthenticationError } = require('apollo-server-express');
 const authService = require('../services/auth.service');
 const encryptService = require('../services/encrypt.service');
 const User = require('../models/User.model');
+const toTitleCase = require('../util/toTitleCase');
 
 const UserMutations = {
   async createUser(_, { full_name, username, email_address, password }) {
     const account = await User.create({
-      full_name,
+      full_name: toTitleCase(full_name),
       username: username.toLowerCase(),
       password,
       email_address: email_address.toLowerCase(),
     });
 
-    const token = authService().issue({
-      account,
-    });
+    const token = authService().issue({ account });
 
     return {
       token,
@@ -43,16 +42,18 @@ const UserMutations = {
   async updateUserDetails(_, { email_address, full_name }, { user }) {
     if (!user) throw new AuthenticationError('You are not logged in.');
 
-    const account = await User.update(
-      { email_address, full_name },
+    const result = await User.update(
+      { email_address, full_name: toTitleCase(full_name) },
       { where: { id: user.account.id }, returning: true, plain: true },
     );
 
-    const token = authService().issue({ account: account[1] });
+    const account = result[1];
+
+    const token = authService().issue({ account });
 
     return {
       token,
-      user: account[1],
+      user: account,
     };
   },
 

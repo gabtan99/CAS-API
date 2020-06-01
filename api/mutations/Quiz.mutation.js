@@ -2,7 +2,8 @@ const { AuthenticationError, UserInputError } = require('apollo-server-express')
 const Quiz = require('../models/Quiz.model');
 const Flashcard = require('../models/Flashcard.model');
 const getQuizType = require('../util/getQuizType');
-const getUpdatedSets = require('../util/getUpdatedSets');
+const getFlashcardActions = require('../util/getFlashcardActions');
+const toTitleCase = require('../util/toTitleCase');
 
 const QuizMutations = {
   async createQuiz(_, { title, description, quiz_type, is_public, flashcards }, { user }) {
@@ -16,7 +17,7 @@ const QuizMutations = {
 
     const result = await Quiz.create({
       user_id,
-      title,
+      title: toTitleCase(title),
       description,
       type_id,
       is_public,
@@ -49,7 +50,7 @@ const QuizMutations = {
     const { id: type_id } = type;
 
     const result = await Quiz.update(
-      { title, description, type_id, is_public, type_id },
+      { title: toTitleCase(title), description, type_id, is_public, type_id },
       { where: { id: quiz_id, user_id: user.account.id, is_active: true } },
     );
 
@@ -57,19 +58,20 @@ const QuizMutations = {
 
     if (successful) {
       const existing_sets = await Flashcard.findAll({ where: { quiz_id }, raw: true });
-      const updated_sets = flashcards.map((obj) => ({ ...obj, id: parseInt(obj.id), quiz_id }));
+      const updated_sets = flashcards.map((obj) => ({
+        ...obj,
+        id: parseInt(obj.id),
+        quiz_id: parseInt(quiz_id),
+      }));
 
-      const { create: c, update: u, delete: d } = getUpdatedSets(existing_sets, updated_sets);
+      const { create: c, update: u, delete: d } = getFlashcardActions(existing_sets, updated_sets);
 
       //  Create Cards
       Flashcard.bulkCreate(c);
 
       // Update Cards
-      u.forEach(({ id, question, correct_answer, wrong_answer_a, wrong_answer_b }) =>
-        Flashcard.update(
-          { question, correct_answer, wrong_answer_a, wrong_answer_b },
-          { where: { id } },
-        ),
+      u.forEach(({ id, quiz_id, ...obj }) =>
+        Flashcard.update({ ...obj }, { where: { id, quiz_id } }),
       );
 
       // Delete Cards

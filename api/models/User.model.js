@@ -4,7 +4,7 @@ const Database = require('../../config/Database');
 
 const hooks = {
   beforeCreate(user) {
-    user.password = encryptService().generatePassword(user); // eslint-disable-line no-param-reassign
+    user.password = encryptService().generatePassword(user);
   },
 };
 

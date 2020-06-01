@@ -2,16 +2,16 @@ const Database = require('../../config/Database');
 
 const dbService = () => {
   const authenticateDB = () => {
-    console.log('Attempting to connect...');
+    console.log('⌛ DATABASE: Connecting...');
     return Database.authenticate();
   };
 
   const start = async () => {
     try {
       await authenticateDB();
-      console.log('Successfully connected to database');
+      console.log('✅ DATABASE: Connected.');
     } catch (err) {
-      console.info('unable to connect to the database:', err);
+      console.info('❌ DATABASE: Error.', err);
     }
   };
 
