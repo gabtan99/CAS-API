@@ -1,25 +1,34 @@
 type Query {
-  me: User
+  # Public
   users: [User]
   user(id: ID!): User
-  quizzes: [Quiz]
   quiz(id: ID!): Quiz
   quiz_type(id: ID!): QuizType
   quiz_types: [QuizType]
+  quizzes(conditions: ConditionsInput): [Quiz]
+
+  # Private (Checks User Access)
+  me: User
   attempts(quiz_id: ID!): [Attempt]
   bookmarks: [Bookmark]
+  bookmarked_quizzes(conditions: ConditionsInput): [Quiz]
+  recent_quizzes(conditions: ConditionsInput): [Quiz]
+  my_quizzes(conditions: ConditionsInput): [Quiz]
 }
 
 type Mutation {
+  # User
+  login(username: String!, password: String!): AuthPayload!
   createUser(
     full_name: String!
     username: String!
     email_address: String!
     password: String!
   ): AuthPayload!
-  login(username: String!, password: String!): AuthPayload!
   updateUserDetails(full_name: String, email_address: String): AuthPayload!
   updatePassword(old_password: String!, new_password: String!): AuthPayload!
+
+  # Quiz
   createQuiz(
     title: String!
     description: String
@@ -36,8 +45,12 @@ type Mutation {
     flashcards: [FlashcardInput]!
   ): Boolean!
   deleteQuiz(quiz_id: ID!): Boolean!
+
+  # Bookmark
   createBookmark(quiz_id: ID!): Bookmark!
   deleteBookmark(id: ID!): Boolean!
+
+  # Attempt
   createAttempt(quiz_id: ID!, user_score: Int!, max_score: Int!): Attempt!
 }
 
@@ -72,6 +85,19 @@ type Quiz {
   attempts_count: Int
   bookmarks_count: Int
   leaderboard(limit: Int): [Attempt]
+}
+
+input ConditionsInput {
+  sort_column: String
+  sort_order: SortOrder
+  keyword: String
+  limit: Int
+  cursor: Int
+}
+
+enum SortOrder {
+  ASC
+  DESC
 }
 
 type Flashcard {
