@@ -7,15 +7,27 @@ const getPaginatedPayload = require('../util/getPaginatePayload');
 
 const PrivateQuery = {
   me: (_, __, { user }) => (user ? user.account : null),
-  attempts: (_, { quiz_id }, { user }) => {
-    if (!user) throw new AuthenticationError('You must be logged in to view your quiz attempts.');
-
-    return Attempt.findAll({ where: { quiz_id, user_id: user.account.id } });
-  },
   bookmarks: (_, __, { user }) => {
     if (!user) throw new AuthenticationError('You must be logged in to view your bookmarks.');
 
     return Bookmark.findAll({ where: { user_id: user.account.id } });
+  },
+  attempts_history: async (_, { conditions }, { user }) => {
+    if (!user) throw new AuthenticationError('You must be logged in to view your quiz attempts.');
+    const { sort_column = 'id', sort_order = 'DESC', limit = 5, cursor } = conditions;
+
+    const results = await Attempt.findAll({
+      where: { user_id: user.account.id },
+      order: [[sort_column, sort_order]],
+      raw: true,
+    });
+
+    const { data, nextCursor } = getPaginatedPayload(results, limit, cursor);
+
+    return {
+      attempts: data,
+      cursor: nextCursor,
+    };
   },
   bookmarked_quizzes: async (_, { conditions }, { user }) => {
     if (!user) throw new AuthenticationError('You must be logged in to view your bookmarks.');
