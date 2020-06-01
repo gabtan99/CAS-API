@@ -74,7 +74,6 @@ type User {
   full_name: String!
   username: String!
   email_address: String!
-  password: String!
   date_created: String!
   quizzes: [Quiz]
   bookmarks: [Quiz]
