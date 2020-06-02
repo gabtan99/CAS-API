@@ -14,6 +14,7 @@ type Query {
   bookmarked_quizzes(conditions: ConditionsInput!): QuizzesPayload!
   recent_quizzes(conditions: ConditionsInput!): QuizzesPayload!
   my_quizzes(conditions: ConditionsInput!): QuizzesPayload!
+  search(keyword: String!, user_limit: Int, quiz_limit: Int): SearchPayload!
 }
 
 type Mutation {
@@ -69,14 +70,20 @@ type AttemptsPayload {
   cursor: Int
 }
 
+type SearchPayload {
+  quizzes: [Quiz]
+  users: [User]
+  has_more_quizzes: Boolean
+  has_more_users: Boolean
+}
+
 type User {
   id: ID!
   full_name: String!
   username: String!
   email_address: String!
   date_created: String!
-  quizzes: [Quiz]
-  bookmarks: [Quiz]
+  quizzes(conditions: ConditionsInput!): QuizzesPayload
 }
 
 type Quiz {
