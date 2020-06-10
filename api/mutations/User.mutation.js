@@ -14,7 +14,7 @@ const UserMutations = {
         password,
         email_address: email_address.toLowerCase(),
       });
-    } catch (e) {
+    } catch (err) {
       const { name, parent } = err;
       if (name === 'SequelizeUniqueConstraintError') {
         if (parent.constraint === 'unique_username') {
@@ -54,10 +54,20 @@ const UserMutations = {
   async updateUserDetails(_, { email_address, full_name }, { user }) {
     if (!user) throw new AuthenticationError('You are not logged in.');
 
-    const result = await User.update(
-      { email_address, full_name: toTitleCase(full_name) },
-      { where: { id: user.account.id }, returning: true, plain: true },
-    );
+    let result;
+    try {
+      result = await User.update(
+        { email_address, full_name: toTitleCase(full_name) },
+        { where: { id: user.account.id }, returning: true, plain: true },
+      );
+    } catch (err) {
+      const { name, parent } = err;
+      if (name === 'SequelizeUniqueConstraintError') {
+        if (parent.constraint === 'unique_email_address') {
+          throw new UserInputError('Email Address is already taken.');
+        }
+      }
+    }
 
     const account = result[1];
 
