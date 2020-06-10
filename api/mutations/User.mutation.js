@@ -1,4 +1,4 @@
-const { AuthenticationError } = require('apollo-server-express');
+const { AuthenticationError, UserInputError } = require('apollo-server-express');
 const authService = require('../services/auth.service');
 const encryptService = require('../services/encrypt.service');
 const User = require('../models/User.model');
@@ -6,12 +6,24 @@ const toTitleCase = require('../util/toTitleCase');
 
 const UserMutations = {
   async createUser(_, { full_name, username, email_address, password }) {
-    const account = await User.create({
-      full_name: toTitleCase(full_name),
-      username: username.toLowerCase(),
-      password,
-      email_address: email_address.toLowerCase(),
-    });
+    let account;
+    try {
+      account = await User.create({
+        full_name: toTitleCase(full_name),
+        username: username.toLowerCase(),
+        password,
+        email_address: email_address.toLowerCase(),
+      });
+    } catch (e) {
+      const { name, parent } = err;
+      if (name === 'SequelizeUniqueConstraintError') {
+        if (parent.constraint === 'unique_username') {
+          throw new UserInputError('Username is already taken.');
+        } else if (parent.constraint === 'unique_email_address') {
+          throw new UserInputError('Email Address is already taken.');
+        }
+      }
+    }
 
     const token = authService().issue({ account });
 
