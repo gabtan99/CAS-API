@@ -16,10 +16,11 @@ const UserMutations = {
       });
     } catch (err) {
       const { name, parent } = err;
+
       if (name === 'SequelizeUniqueConstraintError') {
-        if (parent.constraint === 'unique_username') {
+        if (parent.constraint === 'Users_username') {
           throw new UserInputError('Username is already taken.');
-        } else if (parent.constraint === 'unique_email_address') {
+        } else if (parent.constraint === 'Users_email') {
           throw new UserInputError('Email Address is already taken.');
         }
       }
@@ -63,7 +64,7 @@ const UserMutations = {
     } catch (err) {
       const { name, parent } = err;
       if (name === 'SequelizeUniqueConstraintError') {
-        if (parent.constraint === 'unique_email_address') {
+        if (parent.constraint === 'Users_email') {
           throw new UserInputError('Email Address is already taken.');
         }
       }
