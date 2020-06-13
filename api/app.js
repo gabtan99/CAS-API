@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 4000;
 const app = express();
 const DB = dbService().start();
 
-server.applyMiddleware({ app, path: '/api' });
+server.applyMiddleware({ app, path: '/api', cors: true });
 
 app.get('/ping', (_, res) => {
   res.status(200).json({ awake: true });
